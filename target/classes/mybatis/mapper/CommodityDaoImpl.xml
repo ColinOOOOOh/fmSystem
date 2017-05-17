@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fmSystem.Dao.ICommodityDao">
+    <!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！-->
+    <resultMap id="CommodityResultMap" type="com.fmSystem.Bean.Po.CommodityPo">
+        <id column="CommodityId" property="commodityId" />
+        <result column="WarehouseId" property="warehouseId" />
+        <result column="CommodityName" property="commodityName"  />
+        <result column="CommodityPrice" property="commodityPrice" />
+        <result column="CommodityCost" property="commodityCost" />
+
+    </resultMap>
+    <!-- 查询单条记录 -->
+    <select id="getCommodityById" parameterType="int" resultMap="CommodityResultMap">
+        SELECT * FROM t_commodity WHERE CommodityId = #{commodityId}
+    </select>
+</mapper>
