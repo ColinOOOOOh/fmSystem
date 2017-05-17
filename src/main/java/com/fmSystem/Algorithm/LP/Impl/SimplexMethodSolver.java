@@ -1,21 +1,17 @@
 package com.fmSystem.Algorithm.LP.Impl;
 
 import Jama.Matrix;
-import com.fmSystem.Algorithm.LP.IConstraint;
-import com.fmSystem.Algorithm.LP.ILinearObjective;
-import com.fmSystem.Algorithm.LP.IOptimizationProblemSolver;
-import com.fmSystem.Algorithm.LP.IOptimizationResult;
-import com.sun.org.apache.xpath.internal.SourceTree;
+import com.fmSystem.Algorithm.LP.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
+
 
 /**
  * Created by 74551 on 2017/5/14.
  */
 public class SimplexMethodSolver implements IOptimizationProblemSolver {
     public IOptimizationResult solve(ILinearObjective o, IConstraint c){
+
         int m = size(c.getB(),1);
         int n = size(o.getCoefficients(),1);
 
@@ -26,8 +22,18 @@ public class SimplexMethodSolver implements IOptimizationProblemSolver {
             row2basic.set(i,1,1+n+i);
         }
         Matrix cols = candidate_pivot_columns(T, n);
+        while (size(cols,2) > 0){
+            int j = (int)cols.get(0,0);
+            int i = candidate_pivot_row(T, m, j);
+            row2basic.set(0, i-1, j);
+            T = gauss_jordan(T, m, n, i, j);
+        }
 
+        Matrix basic_set = row2basic.get(1, row2basic.getColumnDimension()-1) - 1;
+        Matrix nonbasic_set = setdiff(all, basic_set);
+        
 
+        ProfitBasedResult s = new ProfitBasedResult(no, T.get(0, T.getColumnDimension()-1), );
         return null;
     }
 
@@ -39,6 +45,13 @@ public class SimplexMethodSolver implements IOptimizationProblemSolver {
             return matrix.getColumnDimension();
         }
         return 999999;
+    }
+
+    public Matrix size(Matrix matrix){
+        Matrix m = new Matrix(1,2);
+        m.set(0,0,matrix.getRowDimension());
+        m.set(0,1,matrix.getColumnDimension());
+        return m;
     }
 
     private Matrix zeros(int x, int y){
@@ -148,36 +161,6 @@ public class SimplexMethodSolver implements IOptimizationProblemSolver {
         return T;
     }
 
-    public Matrix candidate_pivot_columns(Matrix T, int n){
-        Matrix min = min(T.getMatrix(0,0,1,2+n-2 ));
-        if (min.get(0,0) >= 0){
-            return new Matrix(0,0);
-
-        }else {
-            ArrayList<Integer> findList = find(T.getMatrix(0,0,1,2+n-2 ), min.get(0,0));
-            Matrix findListMatrix = new Matrix(1, findList.size());
-            for (int i = 0; i < findList.size(); i++){
-                findListMatrix.set(0, i, findList.get(i)+1);
-
-            }
-            findListMatrix = sort(findListMatrix);
-            return  findListMatrix;
-        }
-
-    }
-
-    public ArrayList<Integer> find(Matrix m, double value){
-        ArrayList list = new ArrayList();
-        for (int i = 0; i < m.getColumnDimension(); i++){
-            for (int j = 0; j <m.getRowDimension(); j++){
-                if (m.get(j, i) == value){
-                    list.add(j + i * m.getRowDimension()) ;
-                }
-            }
-        }
-        return list;
-    }
-
     public Matrix sort(Matrix m){
         double[][] array = m.getArray();
         double tmp;
@@ -205,6 +188,102 @@ public class SimplexMethodSolver implements IOptimizationProblemSolver {
             }
         }
         return m;
+    }
+
+    public Matrix candidate_pivot_columns(Matrix T, int n){
+        Matrix min = min(T.getMatrix(0,0,1,2+n-2 ));
+        if (min.get(0,0) >= 0){
+            return new Matrix(0,0);
+
+        }else {
+            ArrayList<Integer> findList = find(T.getMatrix(0,0,1,2+n-2 ), "=", min.get(0,0));
+            Matrix findListMatrix = new Matrix(1, findList.size());
+            for (int i = 0; i < findList.size(); i++){
+                findListMatrix.set(0, i, findList.get(i)+1);
+
+            }
+            findListMatrix = sort(findListMatrix);
+            return  findListMatrix;
+        }
+
+    }
+
+    public ArrayList<Integer> find(Matrix m, String symbol, double value){
+        ArrayList list = new ArrayList();
+        if (symbol.equals("<")){
+            for (int i = 0; i < m.getColumnDimension(); i++){
+                for (int j = 0; j <m.getRowDimension(); j++){
+                    if (m.get(j, i) < value){
+                        list.add(j + i * m.getRowDimension()) ;
+                    }
+                }
+            }
+        }else if (symbol.equals("=")){
+            for (int i = 0; i < m.getColumnDimension(); i++){
+                for (int j = 0; j <m.getRowDimension(); j++){
+                    if (m.get(j, i) == value){
+                        list.add(j + i * m.getRowDimension()) ;
+                    }
+                }
+            }
+        }else if (symbol.equals(">")){
+            for (int i = 0; i < m.getColumnDimension(); i++){
+                for (int j = 0; j <m.getRowDimension(); j++){
+                    if (m.get(j, i) >value){
+                        list.add(j + i * m.getRowDimension()) ;
+                    }
+                }
+            }
+        }
+
+        return list;
+    }
+
+    public int candidate_pivot_row(Matrix T, int m, int j){
+        int i = 0;
+        double min = Double.POSITIVE_INFINITY;
+
+        for (int r = 1; r < 1 + m; r++){
+            double a_rj = T.get(r, j);
+            double b_r = T.get(r, T.getColumnDimension() - 1);
+            double mrt = b_r / a_rj;
+
+            if (a_rj > 0 && mrt < min){
+                min = mrt;
+                i = r;
+            }
+        }
+        return i;
+    }
+
+    public ArrayList get_unbounded_variable(Matrix A, Matrix c){
+        ArrayList<Integer> i = find(c, ">", 0);
+        int[] is = new int[i.size()];
+        for (int k = 0; k < i.size(); k++){
+            is[k] = i.get(k);
+        }
+        ArrayList<Integer> j = find(A.getMatrix(0,A.getRowDimension()-1, is), "<", 0);
+        ArrayList x = new ArrayList();
+        for (int k = 0; k < j.size(); k++){
+            x.set(k, j.get(k) / A.getRowDimension());
+        }
+        return x;
+    }
+
+    public Matrix gauss_jordan(Matrix T, int m, int n, int i, int j){
+        for (int k = 0; k < T.getColumnDimension(); k++ ){
+            T.set(i-1, k, T.get(i-1, k) / T.get(i-1, j-1));
+        }
+
+        for (int r = 1; r < m+1; r++ ){
+            if (r != i){
+                for (int k = 0; k < T.getRowDimension(); k++){
+                    T.set(r-1, k, -T.get(r-1, j-1) * T.get(i-1, k) + T.get(r-1, k));
+                }
+
+            }
+        }
+        return T;
     }
 
 }

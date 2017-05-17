@@ -59,7 +59,7 @@ public class LPTest {
         SimplexMethodSolver simplexMethodSolver = new SimplexMethodSolver();
         double doubles1[][] = {{1,-2,3,0},{1,4,5,6},{-1,8,8,-6}};
         Matrix m1 = new Matrix(doubles1);
-        ArrayList<Integer>  inds = simplexMethodSolver.find(m1, 8);
+        ArrayList<Integer>  inds = simplexMethodSolver.find(m1,"=", 8);
         System.out.println(inds.toString());
     }
     @Test
