@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fmSystem.Dao.IAvailableDateDao">
+    <!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！-->
+    <resultMap id="AvailableDateResultMap" type="com.fmSystem.Bean.Po.AvailableDatePo">
+        <id column="ShopId" property="shopId" />
+        <result column="Year" property="year" />
+        <result column="Month" property="month"  />
+
+
+    </resultMap>
+    <!-- 查询单条记录 -->
+    <select id="getDateByShopId" parameterType="int" resultMap="AvailableDateResultMap">
+        SELECT * FROM t_available_date WHERE ShopId = #{shopId}
+    </select>
+</mapper>
