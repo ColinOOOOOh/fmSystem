@@ -1,9 +1,9 @@
 package com.fmSystem.Service.Impl;
 
+import com.fmSystem.Algorithm.PoissonBasedWarehouse.Warehouse;
 import com.fmSystem.Bean.Po.AvailableDatePo;
 import com.fmSystem.Bean.Po.CommodityPo;
 import com.fmSystem.Bean.Po.SalesRecordPo;
-import com.fmSystem.Bean.Po.ShopPo;
 import com.fmSystem.Dao.IAvailableDateDao;
 import com.fmSystem.Dao.ICommodityDao;
 import com.fmSystem.Dao.IShopDao;
@@ -24,6 +24,8 @@ public class ShopServiceImpl implements IShopService{
     private ICommodityDao commodityDao;
     @Autowired
     private IAvailableDateDao availableDateDao;
+    @Autowired
+    private Warehouse warehouse;
     public HashMap<AvailableDatePo,Double> getIncomePerMonth(int shopId){
         List<SalesRecordPo> resultList = shopDao.getShopSalesRecord(shopId);
         HashMap<AvailableDatePo,Double> map = new HashMap<AvailableDatePo, Double>();
@@ -61,4 +63,13 @@ public class ShopServiceImpl implements IShopService{
 
         return map;
     }
+
+    public void getBestWarehousePerItem(int shopId, int commodityId){
+        List<AvailableDatePo> availableDateList = availableDateDao.getDateByShopId(shopId);
+        List<SalesRecordPo> resultList = shopDao.getShopSalesRecord(shopId);
+        double res = warehouse.calculate_average_sales(availableDateList, resultList,commodityId);
+        System.out.println(res);
+    }
+
+
 }

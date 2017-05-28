@@ -17,15 +17,15 @@ public class UserServiceImpl implements IUserService {
     private IUserDao userdao;
     private ReturnMessage returnMessage;
 
-    public ReturnMessage login( LoginVo loginVo ) {
-        UserPo userPo = userdao.getUserByUsername(loginVo.getUsername());
+    public ReturnMessage login( UserPo userPo1 ) {
+        UserPo userPo = userdao.getUserByUsername(userPo1.getUsername());
         returnMessage = new ReturnMessage();
         if(userPo == null){
             returnMessage.setContent("该用户不存在");
             returnMessage.setFlat(false);
             return returnMessage;
         }
-        if(loginVo.getUserPassword().equals(userPo.getUserPassword())){
+        if(userPo1.getUserPassword().equals(userPo.getUserPassword())){
             userPo.toString();
             returnMessage.setContent("登录成功");
             returnMessage.setFlat(true);
