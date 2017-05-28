@@ -8,9 +8,10 @@
         <result column="Username" property="username" />
         <result column="UserPassword" property="userPassword"  />
         <result column="UserPhone" property="userPhone" />
+
     </resultMap>
     <!-- 查询单条记录 -->
-    <select id="getUserByUsername" parameterType="String" resultMap="BaseResultMap">
-        SELECT * FROM t_user WHERE Username = #{username}
+    <select id="getUserByPhone" parameterType="String" resultMap="BaseResultMap">
+        SELECT * FROM t_user WHERE UserPhone = #{userPhone}
     </select>
 </mapper>

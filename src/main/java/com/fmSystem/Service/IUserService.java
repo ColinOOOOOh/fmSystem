@@ -8,5 +8,5 @@ import com.fmSystem.Utility.ReturnMessage;
  * Created by 74551 on 2017/4/22.
  */
 public interface IUserService {
-    ReturnMessage login(UserPo userPo);
+    ReturnMessage login(LoginVo loginVo);
 }

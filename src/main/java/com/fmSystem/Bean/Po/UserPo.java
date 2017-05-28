@@ -9,6 +9,11 @@ public class UserPo {
     private String userPhone;
     private String userPassword;
 
+    public UserPo(String userPhone, String userPassword){
+        this.userPhone = userPhone;
+        this.userPassword = userPassword;
+    }
+
     public int getUserId() {
         return userId;
     }

@@ -34,16 +34,16 @@ public class UserServiceTest extends SpringTestCase {
 
     @Test
     public void loginTest(){
-        LoginVo loginVo1 = new LoginVo();
-        LoginVo loginVo2 = new LoginVo();
-        LoginVo loginVo3 = new LoginVo();
-        loginVo1.setUsername("ouzhu");
-        loginVo1.setUserPassword("123123");
-        loginVo2.setUsername("ouz");
-        loginVo2.setUserPassword("123133");
-        loginVo3.setUsername("ouzhu");
-        loginVo3.setUserPassword("123");
-        ReturnMessage returnMessage;
+//        LoginVo loginVo1 = new LoginVo();
+//        LoginVo loginVo2 = new LoginVo();
+//        LoginVo loginVo3 = new LoginVo();
+//        loginVo1.setUsername();
+//        loginVo1.setUserPassword("123123");
+//        loginVo2.setUsername("ouz");
+//        loginVo2.setUserPassword("123133");
+//        loginVo3.setUsername("ouzhu");
+//        loginVo3.setUserPassword("123");
+//        ReturnMessage returnMessage;
 
         //returnMessage = userService.login(loginVo1);
         //Assert.assertEquals("登录成功",returnMessage.getContent());

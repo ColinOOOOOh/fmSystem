@@ -5,7 +5,10 @@ package com.fmSystem.Bean.Vo;
  */
 public class LoginVo {
     private String userPassword;
-    private String username;
+    private String userPhone;
+
+    public LoginVo() {
+    }
 
     public String getUserPassword() {
         return userPassword;
@@ -15,16 +18,16 @@ public class LoginVo {
         this.userPassword = userPassword;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserPhone() {
+        return userPhone;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
     }
 
     @Override
     public String toString(){
-        return "userPassword: " + userPassword + " username: " + username;
+        return "userPassword: " + userPassword + " userPhone: " + userPhone;
     }
 }
