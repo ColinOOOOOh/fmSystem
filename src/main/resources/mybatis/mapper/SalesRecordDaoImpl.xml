@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fmSystem.Dao.ISalesRecordDao">
+    <!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！-->
+    <resultMap id="SalesRecordResultMap" type="com.fmSystem.Bean.Po.SalesRecordPo">
+        <id column="SalesRecordId" property="salesRecordId"  />
+        <result column="ShopId" property="shopId" />
+    </resultMap>
+
+    <insert id="setSalesRecord" parameterType="com.fmSystem.Bean.Po.SalesRecordPo" useGeneratedKeys="true" keyProperty="salesRecordId">
+        INSERT INTO t_sales_record(ShopId) VALUES (#{shopId})
+    </insert>
+
+    <select id="getSalesRecordsByShopId" parameterType="int" resultMap="SalesRecordResultMap">
+        SELECT * FROM t_sales_record WHERE ShopId = #{shopId}
+    </select>
+
+</mapper>

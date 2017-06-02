@@ -6,7 +6,7 @@ package com.fmSystem.Bean.Po;
 public class ShopPo {
     private int shopId;
     private String shopName;
-    private int warehouseId;
+
 
     public int getShopId() {
         return shopId;
@@ -24,17 +24,10 @@ public class ShopPo {
         this.shopName = shopName;
     }
 
-    public int getWarehouseId() {
-        return warehouseId;
-    }
-
-    public void setWarehouseId(int warehouseId) {
-        this.warehouseId = warehouseId;
-    }
 
     @Override
     public String toString(){
-        return "shopId: "  + shopId + " shopName: " + shopName + " warehouseId + "+ warehouseId;
+        return "shopId: "  + shopId + " shopName: " + shopName;
     }
 
 }

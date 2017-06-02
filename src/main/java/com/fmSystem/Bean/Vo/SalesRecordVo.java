@@ -7,11 +7,24 @@ import java.sql.Time;
  * Created by 74551 on 2017/4/30.
  */
 public class SalesRecordVo {
+
+
+    private int commodityId;
     private String commodityName;
-    private Date date;
-    private Time time;
+    private Date rDate;
+    private Time rTime;
     private int number;
 
+    public SalesRecordVo() {
+    }
+
+    public int getCommodityId() {
+        return commodityId;
+    }
+
+    public void setCommodityId(int commodityId) {
+        this.commodityId = commodityId;
+    }
     public String getCommodityName() {
         return commodityName;
     }
@@ -20,20 +33,20 @@ public class SalesRecordVo {
         this.commodityName = commodityName;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getrDate() {
+        return rDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setrDate(Date rDate) {
+        this.rDate = rDate;
     }
 
     public Time getTime() {
-        return time;
+        return rTime;
     }
 
     public void setTime(Time time) {
-        this.time = time;
+        this.rTime = time;
     }
 
     public int getNumber() {
@@ -46,6 +59,6 @@ public class SalesRecordVo {
 
     @Override
     public String toString() {
-        return "commodityName: " + commodityName + " date: " + date + " time: " + time + " number: " + number;
+        return "commodityName: " + commodityName + " rDate: " + rDate + " time: " + rTime + " number: " + number;
     }
 }

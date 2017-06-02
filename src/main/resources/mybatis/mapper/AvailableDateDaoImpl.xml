@@ -7,11 +7,13 @@
         <id column="ShopId" property="shopId" />
         <result column="Year" property="year" />
         <result column="Month" property="month"  />
-
-
     </resultMap>
     <!-- 查询单条记录 -->
     <select id="getDateByShopId" parameterType="int" resultMap="AvailableDateResultMap">
         SELECT * FROM t_available_date WHERE ShopId = #{shopId}
     </select>
+
+    <insert id="setAvailableDate" parameterType = "com.fmSystem.Bean.Po.AvailableDatePo">
+        INSERT INTO t_available_date(ShopId, Year, Month) VALUES (#{shopId},#{year},#{month})
+    </insert>
 </mapper>

@@ -1,16 +1,13 @@
 package com.fmSystem.Utility;
 
 
-import com.fmSystem.Bean.Po.SalesRecordPo;
 import com.fmSystem.Bean.Vo.SalesRecordVo;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.sql.Time;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.HashMap;
@@ -21,6 +18,7 @@ import static java.lang.Integer.parseInt;
 /**
  * Created by 74551 on 2017/4/26.
  */
+@Component
 public class ExcelLoador {
     private POIFSFileSystem fs;
     private HSSFWorkbook wb;
@@ -50,14 +48,16 @@ public class ExcelLoador {
             System.out.println();
         }
     }
-        public List<SalesRecordVo> loadRecordFile(InputStream inputStream){
-            List<SalesRecordVo> salesRecordVos = new ArrayList<SalesRecordVo>() ;
-            try{
+        public List<SalesRecordVo> loadRecordFile(File file){
+            try {
+                InputStream inputStream = new FileInputStream(file);
+
                 fs = new POIFSFileSystem(inputStream);
                 wb = new HSSFWorkbook(fs);
-            }catch (IOException e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
+            List<SalesRecordVo> salesRecordVos = new ArrayList<SalesRecordVo>() ;
             //读取表头
             sheet = wb.getSheetAt(0);
             HSSFRow headerRow = sheet.getRow(0);
@@ -69,7 +69,7 @@ public class ExcelLoador {
 
             //读取数据
             HSSFCell cell;
-            for (int i = 1; i < headerRow.getLastCellNum(); i++){
+            for (int i = 1; i <= sheet.getLastRowNum(); i++){
                 row = sheet.getRow(i);
 
                 SalesRecordVo salesRecordVo = new SalesRecordVo();
@@ -81,7 +81,7 @@ public class ExcelLoador {
                 cell = row.getCell(index);
                 java.util.Date utilDate = cell.getDateCellValue();
                 Date sqlDate = new Date(utilDate.getTime());
-                salesRecordVo.setDate(sqlDate);
+                salesRecordVo.setrDate(sqlDate);
                 index = headerSequenceMap.get("时间");
                 cell = row.getCell(index);
                 java.util.Date utilTime = cell.getDateCellValue();

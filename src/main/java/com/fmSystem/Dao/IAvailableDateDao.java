@@ -9,4 +9,6 @@ import java.util.List;
  */
 public interface IAvailableDateDao {
     public List<AvailableDatePo> getDateByShopId(int shopId);
+
+    void setAvailableDate(AvailableDatePo availableDate);
 }

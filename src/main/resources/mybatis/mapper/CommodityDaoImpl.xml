@@ -15,4 +15,21 @@
     <select id="getCommodityById" parameterType="int" resultMap="CommodityResultMap">
         SELECT * FROM t_commodity WHERE CommodityId = #{commodityId}
     </select>
+
+    <select id="getCommodityByNameAndWarehouseId"  resultMap="CommodityResultMap">
+        SELECT * FROM t_commodity WHERE CommodityName = #{param1} and WarehouseId = #{param2}
+    </select>
+
+    <insert id="setCommodity" parameterType="com.fmSystem.Bean.Po.CommodityPo" useGeneratedKeys="true" keyProperty="commodityId">
+        INSERT  INTO t_commodity(WarehouseId, CommodityName) VALUES (#{warehouseId}, #{commodityName})
+    </insert>
+
+    <update id="updateCommodity" parameterType="com.fmSystem.Bean.Po.CommodityPo" >
+        UPDATE t_commodity set CommodityName = #{commodityName}, CommodityPrice = #{commodityPrice}, CommodityCost = #{commodityCost}
+        where CommodityId = #{commodityId}
+    </update>
+
+    <select id="getCommodityByWarehouseId"  parameterType="int" resultMap="CommodityResultMap">
+        SELECT * FROM t_commodity WHERE WarehouseId = #{warehouseId}
+    </select>
 </mapper>

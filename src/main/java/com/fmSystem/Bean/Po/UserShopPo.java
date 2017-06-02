@@ -34,7 +34,7 @@ public class UserShopPo {
 
     @Override
     public String toString(){
-        return "userId: " + userId + " shopId: " + shopId + " permission: " + permission;
+        return "userId: " + userId + " shopId: " + shopId + " PermissionEnum: " + permission;
     }
 
 

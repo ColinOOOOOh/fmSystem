@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fmSystem.Dao.IUserDao">
     <!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！-->
-    <resultMap id="BaseResultMap" type="com.fmSystem.Bean.Po.UserPo">
+    <resultMap id="UserResultMap" type="com.fmSystem.Bean.Po.UserPo">
         <id column="UserId" property="userId" jdbcType="INTEGER" />
         <result column="Username" property="username" />
         <result column="UserPassword" property="userPassword"  />
@@ -11,7 +11,20 @@
 
     </resultMap>
     <!-- 查询单条记录 -->
-    <select id="getUserByPhone" parameterType="String" resultMap="BaseResultMap">
+    <select id="getUserByPhone" parameterType="String" resultMap="UserResultMap">
         SELECT * FROM t_user WHERE UserPhone = #{userPhone}
     </select>
+
+    <select id="getUserById" parameterType="int" resultMap="UserResultMap">
+        SELECT * FROM t_user WHERE UserId = #{userId}
+    </select>
+
+    <insert id="setUser" parameterType="com.fmSystem.Bean.Po.UserPo" useGeneratedKeys="true" keyProperty="userId">
+        INSERT INTO t_user(UserName, UserPhone, UserPassword) VALUES (#{username}, #{userPhone}, #{userPassword})
+    </insert>
+
+    <update id="userModifyInfo" parameterType="com.fmSystem.Bean.Po.UserPo" >
+        UPDATE t_user set Username = #{username}, UserPassword = #{userPassword}, UserPhone = #{userPhone}
+        where UserId = #{userId}
+    </update>
 </mapper>

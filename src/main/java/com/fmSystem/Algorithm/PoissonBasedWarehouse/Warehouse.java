@@ -1,6 +1,7 @@
 package com.fmSystem.Algorithm.PoissonBasedWarehouse;
 
 import com.fmSystem.Bean.Po.AvailableDatePo;
+import com.fmSystem.Bean.Po.RecordInfoPo;
 import com.fmSystem.Bean.Po.SalesRecordPo;
 import org.springframework.stereotype.Component;
 
@@ -59,15 +60,15 @@ public class Warehouse {
         return (double)1 / (double)(a + m);
     }
 
-    public double calculate_average_sales(List<AvailableDatePo> avilable_date, List<SalesRecordPo> sales, int commodityId){
-        HashMap<AvailableDatePo,Integer> map = new HashMap<AvailableDatePo, Integer>();
+    public double calculate_average_sales(List<AvailableDatePo> avilable_date, List<RecordInfoPo> inputRecordInfo, int commodityId){
+        HashMap<AvailableDatePo,Integer> map = new HashMap();
         for (Iterator<AvailableDatePo> iterator = avilable_date.iterator(); iterator.hasNext();){
             map.put(iterator.next(), 0);
         }
 
         Calendar calendar = Calendar.getInstance();
-        for (Iterator iterator = sales.iterator(); iterator.hasNext();){
-            SalesRecordPo po = (SalesRecordPo)iterator.next();
+        for (Iterator iterator = inputRecordInfo.iterator(); iterator.hasNext();){
+            RecordInfoPo po = (RecordInfoPo)iterator.next();
             if (po.getCommodityId() != commodityId) continue;
             //make key
             AvailableDatePo availableDatePo = new AvailableDatePo();
@@ -76,7 +77,7 @@ public class Warehouse {
             availableDatePo.setMonth(calendar.get(Calendar.MONTH)+1);
             int oldNum = map.get(availableDatePo);
             map.remove(availableDatePo);
-            map.put(availableDatePo, oldNum+ po.getNumber());
+            map.put(availableDatePo, oldNum + po.getNumber());
         }
         //cal average
         int monthsNum = 0;

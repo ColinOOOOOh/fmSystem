@@ -65,5 +65,6 @@
     <context:component-scan base-package="com.fmSystem.Dao" />
     <context:component-scan base-package="com.fmSystem.Service" />
     <context:component-scan base-package="com.fmSystem.Algorithm" />
+    <context:component-scan base-package="com.fmSystem.Utility" />
 
 </beans>

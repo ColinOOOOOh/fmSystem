@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- not test yet-->
+<mapper namespace="com.fmSystem.Dao.IWarehouseDao">
+    <resultMap id="CommodityResultMap" type="com.fmSystem.Bean.Po.WarehousePo">
+
+        <id column="WarehouseId" property="warehouseId" />
+        <result column="CommodityId" property="shopId" />
+
+    </resultMap>
+    <!-- 查询单条记录 -->
+    <select id="getWarehouseIdByShopId" parameterType="int" resultType="int">
+        SELECT WarehouseId FROM t_warehouse WHERE ShopId = #{shopId}
+    </select>
+
+    <insert id="setWarehouse" parameterType="com.fmSystem.Bean.Po.WarehousePo" useGeneratedKeys="true" keyProperty="warehouseId">
+        INSERT  INTO t_warehouse(ShopId) VALUE (#{shopId})
+    </insert>
+</mapper>

@@ -4,16 +4,26 @@
 <mapper namespace="com.fmSystem.Dao.IShopDao">
     <!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！-->
     <resultMap id="RecordResultMap" type="com.fmSystem.Bean.Po.SalesRecordPo">
-        <id column="CommodityId" property="commodityId" />
-        <result column="SalesRecordId" property="salesRecordId" />
+        <id column="SalesRecordId" property="salesRecordId" />
         <result column="ShopId" property="shopId"  />
-        <result column="Date" property="date" />
-        <result column="Time" property="time" />
-        <result column="Number" property="number" />
-
     </resultMap>
     <!-- 查询单条记录 -->
     <select id="getShopSalesRecord" parameterType="int" resultMap="RecordResultMap">
         SELECT * FROM t_sales_record WHERE ShopId = #{shopId}
     </select>
+
+    <select id="getEmployeeUserIdListByShopId" parameterType="int" resultType="int">
+        SELECT UserId FROM t_user_shop WHERE ShopId = #{shopId} AND Permission = "EMPLOYEE"
+    </select>
+
+    <insert id="newShop" parameterType="com.fmSystem.Bean.Po.ShopPo" useGeneratedKeys="true" keyProperty="shopId">
+        INSERT INTO t_shop(ShopName) VALUE (ShopName = #{shopName})
+    </insert>
+
+    <select id="searchEmployeeUser" parameterType="String" resultMap="com.fmSystem.Dao.IUserDao.UserResultMap">
+        SELECT t_user.Username, t_user.UserId, t_user.UserPhone FROM t_user NATURAL JOIN t_user_shop WHERE UserPhone = #{userPhone} AND Permission = "EMPLOYEE"
+    </select>
+
+
+
 </mapper>
